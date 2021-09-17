@@ -1,39 +1,6 @@
 {
  "cells": [
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "0b6df1a5",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "df_all = pd.read_excel(\"../web_scraping_Marcus_Anne/df_final.xlsx\")\n",
-    "df_all.head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "d5656f37",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "df_hot_current = pd.read_excel(\"../web_scraping_Marcus_Anne/df_hot_current.csv\")\n",
-    "df_hot_current.head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "1741ea64",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "df_hot_past = pd.read_excel(\"../web_scraping_Marcus_Anne/df_hot_past.csv\")\n",
-    "df_hot_past.head()"
-   ]
-  },
-  {
    "cell_type": "markdown",
    "id": "083d35cd",
    "metadata": {},
@@ -45,25 +12,17 @@
    "cell_type": "code",
    "execution_count": 1,
    "id": "2c3b3e48",
-   "metadata": {},
+   "metadata": {
+    "slideshow": {
+     "slide_type": "skip"
+    }
+   },
    "outputs": [],
    "source": [
     "import pandas as pd\n",
     "import ipywidgets as widgets\n",
     "from difflib import get_close_matches\n",
     "from random import randint"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "6161b207",
-   "metadata": {
-    "slideshow": {
-     "slide_type": "-"
-    }
-   },
-   "source": [
-    "#### File definition"
    ]
   },
   {
@@ -77,39 +36,17 @@
    },
    "outputs": [],
    "source": [
+    "#file definition\n",
     "file_past = \"df_hot_past.csv\"\n",
     "file_now = \"df_hot_current.csv\"\n",
-    "file_spotify = \"results_clusters_15.csv\""
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "id": "fee5e008",
-   "metadata": {
-    "slideshow": {
-     "slide_type": "skip"
-    }
-   },
-   "outputs": [],
-   "source": [
-    "#get dataset\n",
+    "file_spotify = \"results_clusters_15.csv\"\n",
+    "\n",
+    "#get dataset def to load\n",
     "def get_data_set(file): \n",
     "    df = pd.read_csv(file)\n",
-    "    return pd.read_csv(file)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 4,
-   "id": "a3a8b2f1",
-   "metadata": {
-    "slideshow": {
-     "slide_type": "skip"
-    }
-   },
-   "outputs": [],
-   "source": [
+    "    return pd.read_csv(file)\n",
+    "\n",
+    "#run the get_data_set to load the data files: \"df_spotify\" is the big spotify DB, \"df\" is the hotness check DB\n",
     "df_p = get_data_set(file_past)\n",
     "df_n = get_data_set(file_now)\n",
     "df_spotify = get_data_set(file_spotify)\n",
@@ -119,7 +56,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 3,
    "id": "96ee777b",
    "metadata": {
     "slideshow": {
@@ -128,17 +65,15 @@
    },
    "outputs": [],
    "source": [
-    "#clean data set\n",
+    "#clean data set: in \"df_spotify\" and \"df\" we lower cases for song title and clean it from special characters.\n",
     "df['song_title'] = df['song_title'].apply(lambda x: x.lower().translate({ord(c): \"\" for c in \"!?/[]|{}.:()'\\\"\"}))\n",
     "df_spotify['track_name'] = df_spotify['track_name'].apply(lambda x: x.lower().translate({ord(c): \"\" for c in \"!?/[]|{}.:()'\\\"\"}))\n",
-    "df_spotify.rename(columns={df_spotify.columns[0]: \"id\"}, inplace=True)\n",
-    "    #df_p['song_title'] = df_p['song_title'].str.lower()\n",
-    "    #df_p['song_title'] = df_p['song_title'].str.replace(,{'(':'', ')':'', '/':''}, regex = True)"
+    "df_spotify.rename(columns={df_spotify.columns[0]: \"id\"}, inplace=True)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 4,
    "id": "03c8ead0",
    "metadata": {
     "slideshow": {
@@ -150,7 +85,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "What's a badass song? wonderwall\n"
+      "What's a badass song? wonder\n"
      ]
     }
    ],
@@ -164,82 +99,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
-   "id": "6e311660",
+   "execution_count": 6,
+   "id": "0defac5b",
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "2"
-      ]
-     },
-     "execution_count": 25,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
-    "len(song_check_spotify)"
+    "#len(song_check_spotify)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
-   "id": "db56dc80",
+   "execution_count": null,
+   "id": "b37f9514",
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>id</th>\n",
-       "      <th>artists</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>81130</th>\n",
-       "      <td>81130</td>\n",
-       "      <td>oasis</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>95142</th>\n",
-       "      <td>95142</td>\n",
-       "      <td>ryan adams</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "          id     artists\n",
-       "81130  81130       oasis\n",
-       "95142  95142  ryan adams"
-      ]
-     },
-     "execution_count": 33,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
     "#song_check_spotify = get_close_matches(song_input, df_spotify['track_name'], n=20, cutoff=0.99)\n",
     "if len(song_check_spotify) >0:\n",
@@ -251,18 +124,10 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
-   "id": "30a355e8",
+   "execution_count": null,
+   "id": "da6cf862",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "We found 2 songs.\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "if len(song_check_spotify) >1:\n",
     "    print('We found',len(song_check_spotify), 'songs.')"
@@ -271,7 +136,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "2c23a46c",
+   "id": "9570fd19",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -287,7 +152,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "e2ee91e5",
+   "id": "a4c76c01",
    "metadata": {
     "scrolled": true
    },
@@ -299,7 +164,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "036a7e88",
+   "id": "11b6de5e",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -310,7 +175,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "bb7f988d",
+   "id": "1e676dbc",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -321,7 +186,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "aafcf083",
+   "id": "58580df0",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -339,7 +204,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "00413637",
+   "id": "bc7ebb2b",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -349,7 +214,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "04e6f36e",
+   "id": "0b513bf2",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -360,7 +225,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "327c2a39",
+   "id": "2ce6b94c",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -568,7 +433,6 @@
   }
  ],
  "metadata": {
-  "celltoolbar": "Slideshow",
   "kernelspec": {
    "display_name": "Python 3",
    "language": "python",
